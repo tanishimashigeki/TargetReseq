@@ -48,8 +48,8 @@ function emit_civic(CSQ, csq_array,evid,i,j,n,m) {
 
 BEGIN{
 	FS="\t"
-	MutHeader="#CHROM\tSTART\tEND\tREF\tALT\tGenomic Pos\tRSID;ClinID\tVAF\tDEPTH\tP-VAL\tSO\tIMPACT\tGENE\tNT_CHANGE\tAA_CHANGE\tLOF\tNMD\tGnomAD\tClinVar\tOrigin\tRemark"
-	cMutHeader="#Genomic Pos\tRSID;ClinID\tVAF\tDEPTH\tP-VAL\tSO\tIMPACT\tGENE\tNT_CHANGE\tAA_CHANGE\tLOF\tNMD\tGnomAD\tClinVar\tOrigin\tRemark"
+	MutHeader="#CHROM\tSTART\tEND\tREF\tALT\tGenomic Pos\tRSID;ClinID\tVAF\tDEPTH\tP-VAL\tSO\tIMPACT\tGENE\tTRANSCRIPT\tNT_CHANGE\tAA_CHANGE\tLOF\tNMD\tGnomAD\tClinVar\tOrigin\tRemark"
+	cMutHeader="#Genomic Pos\tRSID;ClinID\tVAF\tDEPTH\tP-VAL\tSO\tIMPACT\tGENE\tTRANSCRIPT\tNT_CHANGE\tAA_CHANGE\tLOF\tNMD\tGnomAD\tClinVar\tOrigin\tRemark"
 
 	ClinvarSig["."]="None"
 	ClinvarSig[0]="Uncertain significance"
@@ -82,7 +82,7 @@ BEGIN{
 	ClinOrigin[1073741824]="other"
 	ClinOrigin["."]="."
 
-	if(civicreport != "true")
+	if( mode != "civic")
 	    print MutHeader
 }
 
@@ -122,11 +122,12 @@ BEGIN{
 	}
 	delete tmp
 	delete tmptmp
-	n=split(INFO["ANN"],ANN,"|")
 	# end of INFO
 
+	n_of_ANN=split(INFO["ANN"],ANN_array,",")
+
 	# is civic report mode ? 
-	if(civicreport == "true") {
+	if(mode == "civic") {
 	    if(INFO["CSQ"] == "") {
 		delete INFO
 		next
@@ -135,36 +136,69 @@ BEGIN{
 		print cMutHeader
 	    }
 	}
-	
-	n=split(FORMAT_row,FORMAT,":")
-	n=split(Sample1_row,Sample1,":")
-	for(i=1;i<=n;i++) {
+	    
+	for(k=1;k<=n_of_ANN;k++) {
+	    n=split(ANN_array[k],ANN,"|")
+	    n=split(FORMAT_row,FORMAT,":")
+	    n=split(Sample1_row,Sample1,":")
+	    for(i=1;i<=n;i++) {
 		MUT[FORMAT[i]]=Sample1[i]
-	}
-	POS2=POS + length(REF) - 1
+	    }
+	    POS2=POS + length(REF) - 1
 
-	if(civicreport == "true") {
-	    printf("%s:g.%s%s>%s\t%s",CHROM,POS,REF,ALT,ID)
+	    if(mode == "collapse" && k>=2) {
+		AA_CHANGE=ANN[11]
+		if(AA_CHANGE == "")
+		    AA_CHANGE = "."
+		if(k>=3)
+		    printf("|")
+		printf("%s,%s:%s(%s)",ANN[4],ANN[7],ANN[10],AA_CHANGE)
+		continue
+	    }
+
+	    if(k>=2)
+		printf("\n")
+	    
+	    if(mode == "civic") {
+		printf("%s:g.%s%s>%s",CHROM,POS,REF,ALT)
+		#if(k > 1)
+		#    printf("(%d)",k)
+		printf("\t%s",ID)
+	    }
+	    else {
+		printf("%s\t%s\t%s\t%s\t%s",CHROM,POS,POS2,REF,ALT)
+		printf("\t%s:g.%s%s>%s",CHROM,POS,REF,ALT)
+		#if(k > 1)
+		#    printf("(%d)",k)
+		printf("\t%s",ID)
+	    }
+	    
+	    printf("\t%s\t%s\t%s",MUT["FREQ"],MUT["AD"],MUT["PVAL"])
+	    AA_CHANGE=ANN[11]
+	    if(AA_CHANGE == "")
+		AA_CHANGE = "."
+	    printf("\t%s\t%s\t%s\t%s\t%s\t%s",ANN[2],ANN[3],ANN[4],ANN[7],ANN[10],AA_CHANGE)
+	    printf("\t%s\t%s\t%s\t%s\t%s",INFO["LOF"],INFO["NMD"],INFO["AF"],INFO["CLNSIG"],ClinOrigin[INFO["ORIGIN"]])
+	    if(mode == "collapse") {
+		printf("\t")
+	    }
+	    else if(k>=2) {
+		printf("\tTranscript(%d)",k)
+	    }
+	    else {
+		printf("\t")
+	    }
+	    #printf("\t%s",n_of_fields)
 	}
-	else {
-	    printf("%s\t%s\t%s\t%s\t%s",CHROM,POS,POS2,REF,ALT)
-	    printf("\t%s:g.%s%s>%s\t%s",CHROM,POS,REF,ALT,ID)
-	}
-	printf("\t%s\t%s\t%s",MUT["FREQ"],MUT["AD"],MUT["PVAL"])
-	AA_CHANGE=ANN[11]
-	if(AA_CHANGE == "")
-	    AA_CHANGE = "."
-	printf("\t%s\t%s\t%s\t%s\t%s",ANN[2],ANN[3],ANN[4],ANN[10],AA_CHANGE)
-	printf("\t%s\t%s\t%s\t%s\t%s",INFO["LOF"],INFO["NMD"],INFO["AF"],INFO["CLNSIG"],ClinOrigin[INFO["ORIGIN"]])
-	printf("\t%s",n_of_fields)
 	printf("\n")
 
 
-	if(civicreport == "true") {
+	if(mode == "civic") {
 	    emit_civic(INFO["CSQ"])
 	    printf("\n")
 	}
 	
+	delete ANN_array
 	delete INFO
 	delete ANN
 	delete FORMAT
