@@ -104,5 +104,4 @@ BEGIN{
 	delete FORMAT
 	delete Sample1
 	delete FREQ_array
-
 }
