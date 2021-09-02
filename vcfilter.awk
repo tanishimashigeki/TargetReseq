@@ -1,6 +1,6 @@
 BEGIN{
 	FS="\t"
-	print "#CHROM\tSTART\tEND\tREF\tALT\tgenome_mut\tRSID\tVAF\tDEPTH\tP-VAL\tSO\tIMPACT\tGENE\tNT_CHANGE\tAA_CHANGE\tCOMMON\tLOF\tNMD\t1000Genomes\tExAC\tGnomAD\tClinVar\tRemark"
+	print "#CHROM\tSTART\tEND\tREF\tALT\tgenome_mut\tRSID\tVAF\tDEPTH\tP-VAL\tSO\tIMPACT\tGENE\tNT_CHANGE\tAA_CHANGE\tLOF\tNMD\t1000Genomes\tExAC\tGnomAD\tClinVar\tRemark"
 	ClinvarSig["."]="None"
 	ClinvarSig[0]="Uncertain significance"
 	ClinvarSig[1]="not provided"
@@ -36,19 +36,16 @@ BEGIN{
 	# INFO
 	n=split(INFO_row,tmp,";")
 	n_of_fields = n
-	INFO["COMMON"]="false"
-	INFO["LOF"]="false"
-	INFO["NMD"]="false"
+	INFO["LOF"]="."
+	INFO["NMD"]="."
 	for(i=1;i<=n;i++) {
 		#printf("info[%s]=%s\n",i,tmp[i])
 		split(tmp[i],tmptmp,"=")
 		INFO[tmptmp[1]]=tmptmp[2]
-		if(tmptmp[1] == "COMMON")
-			INFO["COMMON"]="true"
 		if(tmptmp[1] == "LOF")
-			INFO["LOF"]="true"
+			INFO["LOF"]="LOF"
 		if(tmptmp[1] == "NMD")
-			INFO["NMD"]="true"
+			INFO["NMD"]="NMD"
 		
 	}
 	delete tmp
@@ -70,7 +67,7 @@ BEGIN{
 	    AA_CHANGE = "."
 	printf("\t%s\t%s\t%s\t%s\t%s",ANN[2],ANN[3],ANN[4],ANN[10],AA_CHANGE)
 	if(n_of_fields > 6) {
-		printf("\t%s\t%s\t%s",INFO["COMMON"],INFO["LOF"],INFO["NMD"])
+		printf("\t%s\t%s",INFO["LOF"],INFO["NMD"])
 		n=split(INFO["FREQ"],FREQ_array,"|")
 
 		for(i=1;i<=n;i++) {
@@ -81,11 +78,11 @@ BEGIN{
 			delete FREQ_elem
 		}
 		if(FREQ_value["1000Genomes"] == "")
-			FREQ_value["1000Genomes"]=-99
+			FREQ_value["1000Genomes"]=-1
 		if(FREQ_value["ExAC"] == "")
-			FREQ_value["ExAC"]=-99
+			FREQ_value["ExAC"]=-1
 		if(FREQ_value["GnomAD"] == "")
-			FREQ_value["GnomAD"]=-99
+			FREQ_value["GnomAD"]=-1
 		printf("\t%s\t%s\t%s",FREQ_value["1000Genomes"],FREQ_value["ExAC"],FREQ_value["GnomAD"])
 		split(INFO["CLNSIG"],tmp,/[,|]/)
 		if(tmp[1] == "")
@@ -95,13 +92,16 @@ BEGIN{
 		delete FREQ_value
 	}
 	else {
-		printf("\t%s\t%s\t%s\t-1\t-1\t-1\t.",INFO["COMMON"],INFO["LOF"],INFO["NMD"])
+		printf("\t%s\t%s\t-1\t-1\t-1\t.",INFO["LOF"],INFO["NMD"])
 	}
 	printf("\t%s",n_of_fields)
 	printf("\n")
+
+
 	delete INFO
 	delete ANN
 	delete FORMAT
 	delete Sample1
 	delete FREQ_array
+
 }
