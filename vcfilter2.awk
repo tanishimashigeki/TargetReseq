@@ -82,6 +82,8 @@ BEGIN{
 	ClinOrigin[1073741824]="other"
 	ClinOrigin["."]="."
 
+	CIVIC_HITS=0
+	
 	if( mode != "civic")
 	    print MutHeader
 }
@@ -134,6 +136,7 @@ BEGIN{
 	    }
 	    else {
 		print cMutHeader
+		CIVIC_HITS++
 	    }
 	}
 	    
@@ -205,4 +208,10 @@ BEGIN{
 	delete Sample1
 	delete FREQ_array
 
+}
+
+END {
+    if(mode == "civic") {
+	print "vcfilter2.awk reports " CIVIC_HITS " civic mutation hits" > "/dev/stderr"
+    }
 }
