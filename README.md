@@ -263,6 +263,7 @@ java -Xmx4g -jar snpEff.jar -canon hg19 BT-474.vcf | \
 ```
 
 ***テキストP.63***
+
 本課題のGitHubよりスクリプトをダウンロードする。
 （ダウンロード方法の例）
 
