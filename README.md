@@ -3,7 +3,7 @@
 ### コマンドライン編
 ### 2.8 データ解析の手順
 
-**テキストP.52
+**テキストP.52**
 ```
 cd
 mkdir CancerGenome
@@ -11,19 +11,21 @@ ls CancerGenome
 sudo apt update
 sudo apt install default-jre
 ```
-<sub># 実行中のユーザのパスワードを入力する。
-# Javaバージョンが出力されることを確認する。 </sub>
+実行中のユーザのパスワードを入力する。
+Javaバージョンが出力されることを確認する。
 ```
 java -version
 ```
-# P.53
+**テキストP.53**
+```
 sudo apt install make
 sudo apt install maven
 sudo apt install g++
 sudo apt install default-jdk
 javac -version
-
-# P.54
+```
+**テキストP.54**
+```
 cd ~/Downloads
 cp hg19.fa.gz ~/CancerGenome 
 cd ~/CancerGenome
@@ -33,7 +35,7 @@ gunzip BT-474_S13_L001_R1_001.fastq.gz
 gunzip BT-474_S13_L001_R2_001.fastq.gz
 mv BT-474_S13_L001_R1_001.fastq ~/CancerGenome/input_1.fq 
 mv BT-474_S13_L001_R2_001.fastq ~/CancerGenome/input_2.fq
-
+```
 # P.55
 cd ~/CancerGenome
 wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
@@ -42,7 +44,8 @@ unzip Trimmomatic-0.39.zip
 mv Trimmomatic-0.39/trimmomatic-0.39.jar .
 mv Trimmomatic-0.39/adapters .
 
-# P.56
+**P.56**
+```
 cd ~/CancerGenome
 java -jar trimmomatic-0.39.jar \
 	PE \
@@ -65,7 +68,7 @@ sudo apt install bwa
 sudo apt install samtools
 
 bwa index -p hg19 hg19.fa
-
+```
 # P.57
 
 ls hg19.*
