@@ -1,13 +1,12 @@
 ***TargetReseq 編集中です***
 # がんのターゲットりシークエンスのデータ解析
-## コマンドライン編
-## 2.8 データ解析の手順
+# 2.8 データ解析の手順
 解析の準備に関しては、２．計算機の準備（テキストP.48~52）を参照してLinux環境のインストールまで完了してください。
 
 ここでは、本文中に出現するコマンドラインを記載しています。コマンドの意味に関してはテキスト本文を参照してください。
 ご自身で再現実験する時には、ここからコピー＆ペーストして活用してください。
 
-**テキストP.52**
+***テキストP.52***
 
 ホームディレクトリ直下に作業用のCancerGenomeディレクトリを作成する
 ```
@@ -15,7 +14,7 @@ cd
 mkdir CancerGenome
 ls CancerGenome
 ```
-## 3. Javaの入手とインストール
+### 3. Javaの入手とインストール
 ```
 sudo apt update
 sudo apt install default-jre
@@ -25,7 +24,7 @@ Javaバージョンが出力されることを確認する。
 ```
 java -version
 ```
-**テキストP.53**
+***テキストP.53***
 ```
 sudo apt install make
 sudo apt install maven
@@ -37,7 +36,7 @@ sudo apt install default-jdk
 ```
 javac -version
 ```
-**テキストP.54**
+***テキストP.54***
 ## 4. 参照ゲノム配列のダウンロード
 ```
 cd ~/Downloads
@@ -53,7 +52,7 @@ gunzip BT-474_S13_L001_R2_001.fastq.gz
 mv BT-474_S13_L001_R1_001.fastq ~/CancerGenome/input_1.fq 
 mv BT-474_S13_L001_R2_001.fastq ~/CancerGenome/input_2.fq
 ```
-**テキストP.55**
+***テキストP.55***
 ```
 cd ~/CancerGenome
 wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
