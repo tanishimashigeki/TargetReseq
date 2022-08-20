@@ -1,4 +1,4 @@
-# がんのターゲットりシークエンスのデータ解析
+# がんのターゲットリシークエンスのデータ解析
 ## 2.8 データ解析の手順
 
 解析の準備に関しては、２．計算機の準備（テキストP.48~52）を参照してLinux環境のインストールまで完了してください。
@@ -152,7 +152,11 @@ JAVA_HOME=/usr/lib/jvm/default-java/ make
 ```
 cd ~/CancerGenome
 ln -s abra2-2.24/target/abra2-2.24-jar-with-dependencies.jar abra2.jar 
-# 以下のコマンドでバージョンとコマンドラインオプションが表示されることを確認する
+```
+
+以下のコマンドでバージョンとコマンドラインオプションが表示されることを確認する
+
+```
 java -jar abra2.jar
 ```
 
@@ -171,8 +175,11 @@ java	-Xmx12G -Xms8M -jar abra2.jar \
 	--threads 4 \
 	--undup \
 	--nosort
+```
 
-# BAMファイルのインデックスを作成する
+BAMファイルのインデックスを作成する
+
+```
 samtools sort abra.bam -o AnalysisReady.bam
 samtools index AnalysisReady.bam
 ```
@@ -202,18 +209,20 @@ cd ~/Downloads
 mv snpEff_latest_core.zip ~/CancerGenome
 cd ~/CancerGenome
 unzip snpEff_latest_core.zip
-# 展開のメッセージが流れ，snpEffというフォルダに展開される
 ```
 
+展開のメッセージが流れ，snpEffというフォルダに展開される
+カレントディレクトリに実行用jarファイルのリンクを張る
+
 ```
-# カレントディレクトリに実行用jarファイルのリンクを張る
 ln -s snpEff/snpEff.jar
 ln -s snpEff/SnpSift.jar
 ```
 
+snpEff のコマンドでアノテーションファイルをダウンロードする
+少し時間がかかる**
+
 ```
-# snpEff のコマンドでアノテーションファイルをダウンロードする
-# 少し時間がかかる**
 java -jar snpEff.jar download -v hg19
 # snpEffの中に新たにdata ディレクトリができていることを確認する 
 ls snpEff
@@ -240,8 +249,9 @@ vcftools --gzvcf gnomad.exomes.r2.1.1.sites.vcf.bgz --bed \
 
 ```
 gunzip clinvar_20210828.vcf.gz
-# 注意；clinvarのふぃある名はダウンロードした時点で変わりますので、ダウンロードしたファイル名を使用してください
 ```
+
+注意；ここのclinvar_20210828.vcf.gzというclinvarファイル名はダウンロードした時点で変わりますので、ダウンロードしたファイル名を使用してください
 
 
 ```
