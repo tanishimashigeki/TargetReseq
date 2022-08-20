@@ -1,4 +1,4 @@
-# 「がんゲノムデータ解析」第２章　がんのターゲットリシークエンスのデータ解析 コマンド共有
+# [「がんゲノムデータ解析」](https://www.medsi.co.jp/products/detail/3866)第２章　がんのターゲットリシークエンスのデータ解析 コマンド共有
 第２章のコマンドなどへの質問は
 * Twitter ハッシュタグ  [#CancerDAT](https://twitter.com/hashtag/CancerDAT) をつけてツイート
 * 本リポジトリの issueページ 経由でのコメントやプルリクエスト
