@@ -3,17 +3,19 @@
 ### コマンドライン編
 ### 2.8 データ解析の手順
 
-# テキストP.52
-
+**テキストP.52
+```
 cd
 mkdir CancerGenome
 ls CancerGenome
 sudo apt update
 sudo apt install default-jre
-# 実行中のユーザのパスワードを入力する。
-# Javaバージョンが出力されることを確認する。 
+```
+<sub># 実行中のユーザのパスワードを入力する。
+# Javaバージョンが出力されることを確認する。 </sub>
+```
 java -version
-
+```
 # P.53
 sudo apt install make
 sudo apt install maven
