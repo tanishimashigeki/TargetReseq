@@ -8,13 +8,14 @@
 ご自身で再現実験する時には、ここからコピー＆ペーストして活用してください。
 
 **テキストP.52**
+
 ホームディレクトリ直下に作業用のCancerGenomeディレクトリを作成する
 ```
 cd
 mkdir CancerGenome
 ls CancerGenome
 ```
-##3. Javaの入手とインストール
+## 3. Javaの入手とインストール
 ```
 sudo apt update
 sudo apt install default-jre
@@ -37,14 +38,14 @@ sudo apt install default-jdk
 javac -version
 ```
 **テキストP.54**
-##4. 参照ゲノム配列のダウンロード
+## 4. 参照ゲノム配列のダウンロード
 ```
 cd ~/Downloads
 cp hg19.fa.gz ~/CancerGenome 
 cd ~/CancerGenome
 gunzip hg19.fa.gz
 ```
-##5. がん検体FASTQファイルのダウンロード
+## 5. がん検体FASTQファイルのダウンロード
 ```
 cd ~/Downloads
 gunzip BT-474_S13_L001_R1_001.fastq.gz
