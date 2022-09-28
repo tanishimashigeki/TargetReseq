@@ -57,6 +57,8 @@ javac -version
 テキストに記載しているhg19およびhs37d5デコイ配列が入ったFASTAファイルです。
 テキストでは、hg19.fa.gzとして記載されているファイルです。
 
+* テキスト執筆時点よりOneDriveのパスが変更されておりましたので、下記のパスよりhg19.fa.gzを入手してください。
+https://1drv.ms/u/s!AgH_EljY9FLf_AzSjQZTDk1j8Qv3?e=fXIG3O
 
 ***テキストP.54***
 
